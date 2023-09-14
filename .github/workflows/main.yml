@@ -15,14 +15,12 @@ jobs:
 
       - name: Build
         run: |
-          # Your build commands here (e.g., if you need to minify or optimize assets)
-          # Example: npm install && npm run build
+          # Your build commands here (if needed)
           echo "Build step here"
 
       - name: Test
         run: |
-          # Your test commands here (e.g., HTML/CSS validation)
-          # Example: npm test
+          # Your test commands here (if needed)
           echo "Test step here"
 
   deploy:
@@ -31,11 +29,13 @@ jobs:
     
     steps:
       - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@v0.6.0  # Use the latest version
+        uses: w9jds/s3-deploy@v1
         with:
           args: --acl public-read --follow-symlinks --delete
+          dir: ./  # Path to your application files to deploy
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: <your-aws-region>
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         if: success()
